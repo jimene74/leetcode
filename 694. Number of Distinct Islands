@@ -1,0 +1,53 @@
+/*
+
+You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
+An island is considered to be the same as another if and only if one island can be translated (and not rotated or reflected) to equal the other.
+Return the number of distinct islands.
+
+*/
+
+class Solution {
+    public int numDistinctIslands(int[][] grid) {
+    int[][] newGrid = grid;
+    Set<String> saved = new HashSet<>();
+    int row = newGrid.length;
+    int col = newGrid[0].length;
+    for(int i = 0; i< row; i++){
+        for(int j = 0; j< col; j++){
+            if(newGrid[i][j]==1){
+                List<int[]> island = new ArrayList<>();
+                getSmallIsland(newGrid, i, j, i, j, island);
+                StringBuilder sb = new StringBuilder();
+                for(int[] pair : island){
+                    sb.append(pair[0] + "," + pair[1]);
+                }
+        
+                saved.add(sb.toString());
+            }
+        }
+    }
+    
+  return saved.size();
+}
+
+    public  static void getSmallIsland(int[][] grid, int i , int j, int relI, int relJ, List<int[]> coordinates){
+
+      if(i<0 || i >= grid.length || j <0 || j>= grid[0].length || grid[i][j]==0){ 
+        return;
+      }
+
+      int[] toAdd = new int[2];
+      toAdd[0] = i - relI;
+      toAdd[1] = j - relJ;
+
+      coordinates.add(toAdd);
+
+      grid[i][j] = 0;
+
+      getSmallIsland(grid, i+1, j, relI, relJ, coordinates);
+      getSmallIsland(grid, i-1, j, relI, relJ, coordinates);
+      getSmallIsland(grid, i, j+1, relI, relJ, coordinates);
+      getSmallIsland(grid, i, j-1, relI, relJ, coordinates);
+
+    }
+}
