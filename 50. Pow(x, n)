@@ -1,0 +1,36 @@
+/*
+
+Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+*/
+
+class Solution {
+    public double myPow(double x, int n) {
+        long N = n;
+        boolean divide = false;
+        if(N<0){
+            N = Math.abs(N);
+            divide = true;
+        }
+        double ans = recurse(x,N);
+        if(divide){
+            ans = 1.0/ans;
+        }
+        return ans;
+        
+    }
+    
+    private double recurse(double x, long n){
+        if(n==0){
+            return 1.0;
+        }if(n%2==0){
+            long k = n/2;
+            double xtok = recurse(x,k);
+            return xtok*xtok;
+        }else{
+            long k = n/2;
+            double xtok = recurse(x,k);
+            return xtok*xtok*x;
+        }
+    }
+}
