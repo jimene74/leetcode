@@ -1,0 +1,29 @@
+/*
+
+class Solution {
+    public int numSplits(String s) {
+        int goodStrings = 0;
+        int[] forward = new int[s.length()];
+        int[] backward = new int[s.length()];
+        Set<Character> characters = new HashSet<>();
+        for(int i =0;i<s.length();i++){
+            characters.add(s.charAt(i));
+            forward[i] = characters.size();
+        }
+        characters.clear();
+        for(int j =s.length()-1;j>=0;j--){
+            characters.add(s.charAt(j));
+            backward[j] = characters.size();
+        }
+        for(int k=1;k<s.length();k++){
+            if(forward[k-1]==backward[k]){
+                goodStrings++;
+            }
+        }
+        return goodStrings;
+        
+    }
+    
+}
+
+*/
