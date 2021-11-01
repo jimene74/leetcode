@@ -32,3 +32,45 @@ class Solution {
         return total;
     }
 }
+
+/*
+
+class Solution {
+    public int fib(int n) {
+        int ans = 0;
+        if(n<=1)return n;
+        int[][] fibMatrix = {{1, 1}, {1, 0}};
+        pow(fibMatrix,n-1);
+        return fibMatrix[0][0];
+    }
+    
+    public void pow(int[][] matrix, int x){
+        if(x<=1){
+            return;
+        }else if(x%2==0){
+            x = x/2;
+            pow(matrix, x);
+            multiplyMatrix(matrix,matrix);
+        }else{
+            x = x/2;
+            pow(matrix, x);
+            int[][] fibMatrix = {{1, 1}, {1, 0}};
+            multiplyMatrix(matrix,matrix);
+            multiplyMatrix(matrix,fibMatrix);
+        }
+    }
+    
+    public void multiplyMatrix(int[][] a, int[][] b){
+            int x = a[0][0]*b[0][0] + a[0][1]*b[1][0];
+            int y = a[0][0]*b[0][1] + a[0][1]*b[1][1];
+            int z = a[1][0]*b[0][0] + a[1][1]*b[1][0];
+            int w = a[1][0]*b[0][1] + a[1][1]*b[1][1];
+            
+            a[0][0] = x;
+            a[0][1] = y;
+            a[1][0] = z;
+            a[1][1] = w;
+    }
+}
+
+*/
