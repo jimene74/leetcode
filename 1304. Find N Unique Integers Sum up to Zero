@@ -1,0 +1,26 @@
+/*
+
+Given an integer n, return any array containing n unique integers such that they add up to 0.
+
+*/
+
+class Solution {
+    public int[] sumZero(int n) {
+        if(n==1){
+            return new int[]{0};
+        }
+        int[] response = new int[n];
+        int enm = 1;
+        for(int i = 0; i<n;i++){
+            if(i%2==0){
+                response[i] = enm++;
+            }else{
+                response[i] = -1 * response[i-1];
+            }
+        }
+        if(n%2!=0){
+            response[n-1] = 0;
+        }
+        return response;
+    }
+}
