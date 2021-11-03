@@ -31,3 +31,111 @@ class Solution {
         
     }
 }
+
+
+/*
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        ArrayList<String> response = new ArrayList<>();
+        if(n==0){
+            response.add("");
+            return response;
+        }
+        for(int i = 0; i<n;i++){
+            for(String s1 : generateParenthesis(i)){
+                for(String s2 : generateParenthesis(n-i-1)){
+                    response.add('(' + s1 + ')'+ s2);
+                }
+            }
+        }
+        return response;
+        
+    }
+}
+
+*/
+
+/*
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<String> response = new ArrayList<>();
+        HashMap<Integer, List<String>> memo = new HashMap<>();
+        if(n==0){
+            response.add("");
+            return response;
+        }
+        for(int i = 0; i<n;i++){
+            List<String> s1List = new ArrayList<>();
+            if(memo.containsKey(i)){
+                s1List = memo.get(i);
+            }else{
+                s1List = generateParenthesis(i);
+                memo.put(i,s1List);
+            }
+            for(String s1 : s1List){
+                List<String> s2List = new ArrayList<>();
+                if(memo.containsKey(n-i-1)){
+                    s2List = memo.get(n-i-1);
+                }else{
+                    s2List = generateParenthesis(n-i-1);
+                    memo.put(n-i-1,s2List);
+                }
+                for(String s2 : s2List){
+                    response.add('(' + s1 + ')'+ s2);
+                }
+            }
+        }
+        return response;
+        
+    }
+}
+
+*/
+
+Catalan numbers
+
+Backtracking without memoization
+Runtime: 0 ms
+Memory Usage: 39.5 MB
+
+BackTracking memoization
+Runtime: 8 ms
+Memory Usage: 39.4 MB
+
+Recursion
+Runtime: 8 ms
+Memory Usage: 39.9 MB
+
+Dynamic Programming
+Runtime: 8 ms
+Memory Usage: 39.3 MB
+
+class Solution {
+    public List<String> generateParenthesis(int n) {
+        List<List<String>> ls = new ArrayList<>(n+1);
+        List<String> toAdd = new ArrayList<>();
+        toAdd.add("");
+        ls.add(toAdd);
+        if(n==0){
+            return ls.get(ls.size()-1);
+        }
+        for(int i = 1; i < n +1; i++){
+            List<String> nn = new ArrayList<>();
+            for(int j = 0; j<i;j++){
+                List<String> left = ls.get(j);
+                List<String> right = ls.get(i-j-1);
+                for(String s1 : left){
+                    for(String s2 : right){
+                        nn.add('(' + s1 + ')' + s2);
+                    }
+                }
+            }
+            ls.add(nn);
+        }
+        return ls.get(ls.size()-1);
+        
+        
+    }
+}
