@@ -1,0 +1,60 @@
+/*
+
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+*/
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        
+        StringBuilder sb = new StringBuilder();
+        boolean isFirst = true;
+        for(int i=0;i<p.length();i++){
+            if(p.charAt(i)=='*'){
+                if(isFirst){
+                    sb.append('*');
+                    isFirst = false;
+                }
+            }else{
+                sb.append(p.charAt(i));
+                isFirst = true;
+            }
+        }
+        
+        p = sb.toString();
+        System.out.println(p);
+        
+        if(p.equals("")&&s.equals("")){
+            return true;
+        }
+        if(s.equals("")&&p.charAt(0)!='*'){
+            return false;
+        }
+        
+        boolean[][] dp = new boolean[s.length()+1][p.length()+1];
+        dp[0][0] = true;
+        
+        if(p.length()>0 && p.charAt(0)=='*'){
+            System.out.println("yes");
+            dp[0][1] = true;
+        }
+        for(int i = 1; i<=s.length(); i++){
+            for(int j = 1 ; j<=p.length(); j++){
+                System.out.println(i);
+                if(s.charAt(i-1)==p.charAt(j-1) || p.charAt(j-1)=='?'){
+                    dp[i][j] = dp[i-1][j-1];
+                }else if(p.charAt(j-1)=='*'){
+                    if(dp[i-1][j]||dp[i][j-1]){
+                        dp[i][j] = true;
+                    }
+                }else{
+                    dp[i][j] = false;
+                }
+            }
+        }
+        return dp[s.length()][p.length()];
+    }
+}
