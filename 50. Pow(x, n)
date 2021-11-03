@@ -51,3 +51,31 @@ private double pow(double x, int n){
     }
 
 */
+
+pow(n, x)
+
+Recursive:
+
+Runtime: 1 ms
+Memory Usage: 38.3 MB
+
+dp:
+
+Runtime: 1 ms
+Memory Usage: 38.5 MB
+
+/*
+
+private double recurse(double x, long n){
+        double current = x;
+        double ret = 1.0;
+        for(long i = n;i>0;i=i/2){
+            if(i%2==1){
+                ret = ret*current;
+            }
+                current = current * current;
+            
+        }
+        return ret;
+    }
+*/
