@@ -79,3 +79,14 @@ private double recurse(double x, long n){
         return ret;
     }
 */
+
+/*
+multiplication amount using bits for pow of a number. 
+counting from behind 14 -> 1110 
+1 mult 0
+2 mult 1
+2 mult 1
+2 mult 1
+
+because of if %2!=0 we have an extra mult
+*/
