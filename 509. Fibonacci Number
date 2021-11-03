@@ -74,3 +74,54 @@ class Solution {
 }
 
 */
+
+/*
+class Solution {
+    int[][] original;
+    public int fib(int n) {
+        int ans = 0;
+        if(n<=1)return n;
+        int[][] fibMatrix = {{1, 1}, {1, 0}};
+        original = new int[][]{{1, 1}, {1, 0}};
+        pow(fibMatrix,n-1);
+        return fibMatrix[0][0];
+    }
+    
+    public void pow(int[][] matrix, int x){
+        if(x<=1){
+            return;
+        }else if(x%2==0){
+            x = x/2;
+            pow(matrix, x);
+            multiplyMatrix(matrix,matrix);
+        }else{
+            x = x/2;
+            pow(matrix, x);
+            multiplyMatrix(matrix,matrix);
+            multiplyMatrix(matrix,original);
+        }
+    }
+    
+    public void multiplyMatrix(int[][] a, int[][] b){
+        //m*n X n*p = m*p
+        if(a.length!=0 && b.length!=0 && a[0].length==b.length){
+            int[][] response = new int[a.length][b[0].length];
+            for(int i =0 ; i<a.length ; i++){
+                for(int j = 0 ; j<b[0].length ; j++){
+                    int total = 0;
+                    for(int k = 0 ; k <a[0].length ; k++){
+                        total = total + a[i][k]*b[k][j];
+                    }
+                    response[i][j] = total;
+                }
+            }
+            for(int l = 0; l <response.length;l++){
+                for(int p = 0 ; p<response[0].length;p++){
+                    System.out.println(response[l][p]);
+                    a[l][p] = response[l][p];
+                }
+            }
+        }
+    }
+}
+*/
