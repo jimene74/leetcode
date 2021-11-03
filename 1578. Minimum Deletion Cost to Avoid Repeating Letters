@@ -1,0 +1,30 @@
+/*
+
+Given a string s and an array of integers cost where cost[i] is the cost of deleting the ith character in s.
+Return the minimum cost of deletions such that there are no two identical letters next to each other.
+Notice that you will delete the chosen characters at the same time, in other words, after deleting a character, the costs of deleting other characters will not change.
+
+*/
+
+class Solution {
+    public int minCost(String s, int[] cost) {
+        int ret = 0;
+        int left = 0;
+        while(left<s.length()){
+            int right = left;
+            int total = 0;
+            int max = 0;
+            while(right<s.length() && s.charAt(right)==s.charAt(left)){
+                total = total + cost[right];
+                max = Math.max(cost[right], max);
+                right++;
+            }
+            
+            ret = ret + total - max;
+            left = right;
+            
+        }
+        
+        return ret;
+    }
+}
