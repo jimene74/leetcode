@@ -125,3 +125,35 @@ class Solution {
     }
 }
 */
+
+
+/*
+
+Fib time complexities:
+
+Matrix exponentiation:
+
+Runtime: 3 ms
+Memory Usage: 35.9 MB.
+
+Recursion with memoization:
+
+Runtime: 0 ms
+Memory Usage: 35.8 MB
+
+Recursion without memoization:
+
+Runtime: 8 ms
+Memory Usage: 35.9 MB
+
+Dynamic programming 3 variables:
+
+Runtime: 0 ms
+Memory Usage: 35.5 MB
+
+ArrayList dp:
+
+Runtime: 0 ms
+Memory Usage: 36.1 MB
+
+*/
