@@ -4,3 +4,26 @@ Given an integer array arr and an integer difference, return the length of the l
 A subsequence is a sequence that can be derived from arr by deleting some or no elements without changing the order of the remaining elements.
 
 */
+
+class Solution {
+    public int longestSubsequence(int[] arr, int difference) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int[] dp = new int[arr.length];
+        dp[0] = 1;
+        map.put(arr[0],0);
+        int max = 0;
+        for(int i = 1; i<arr.length; i++){
+            if(map.containsKey(arr[i]-difference)){
+                //System.out.println(map.get(arr[i]-difference));
+                dp[i]= dp[map.get(arr[i]-difference)] +1;
+                map.put(arr[i], i);
+            }else{
+                map.put(arr[i],i);
+                dp[i] = 1;
+            }
+            max= Math.max(dp[i], max);
+        }
+        
+        return max;
+    }
+}
