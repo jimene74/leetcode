@@ -1,0 +1,30 @@
+class Solution {
+    public int minEatingSpeed(int[] piles, int h) {
+        int max = 0;
+        for(int num : piles){
+            max = Math.max(max, num);
+        }
+        int left = 1;
+        int right = max;
+        int mid;
+        while(left<right){
+            mid = left + (right-left)/2;
+            if(condition(mid, piles, h)){
+                right = mid;
+            }else{
+                left = mid+1;
+            }
+        }
+        
+        return left;
+    }
+    
+    public boolean condition(int mid, int[] nums, int h){
+        int total=0;
+        for(int num : nums){
+            total = total + ((num-1)/mid)+1;
+        }
+        
+        return total<=h;
+    }
+}
