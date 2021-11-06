@@ -1,0 +1,33 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    boolean tracker;
+    TreeNode ans;
+    public TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        tracker = false;
+        recurse(root,p);
+        return ans;
+    }
+    
+    public void recurse(TreeNode root, TreeNode p){
+        if(root==null){
+            return;
+        } 
+        recurse(root.left,  p);
+        if(tracker){
+            ans = root;
+            tracker = false;
+        }
+        if(root.val==p.val){
+            tracker = true;
+        }
+        recurse(root.right,  p);
+    }
+}
