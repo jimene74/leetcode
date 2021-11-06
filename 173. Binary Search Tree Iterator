@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class BSTIterator {
+
+    TreeNode root;
+    TreeNode current;
+    LinkedList<Integer> list;
+    public BSTIterator(TreeNode root) {
+        this.list = new LinkedList<>();
+        this.root=root;
+        this.current = root;
+        recurse(root);
+    }
+    
+    public int next() {
+        if(hasNext()){
+            return list.pollFirst();
+        }
+        return -1;
+    }
+    
+    public boolean hasNext() {
+        if(list.size()>0){
+            return true;
+        }
+        return false;
+    }
+    
+    public void recurse(TreeNode n){
+        if(n==null){
+            return;
+        }
+        recurse(n.left);
+        list.add(n.val);
+        recurse(n.right);
+    }
+}
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator obj = new BSTIterator(root);
+ * int param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
+ */
