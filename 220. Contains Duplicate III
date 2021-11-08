@@ -1,0 +1,27 @@
+class Solution {
+    public boolean containsNearbyAlmostDuplicate(int[] nums, int k, int t) {
+        int i =0;
+        int j =0;
+        TreeSet<Long> set = new TreeSet<>();
+        while(j<nums.length){
+            if(set.contains((long)nums[j])){
+                return true;
+            }
+            Long ceil = set.ceiling((long)nums[j]-t);
+            Long floor = set.floor((long)nums[j]+t);
+            if((ceil != null && ceil<nums[j]||(floor!=null&&floor>nums[j]))){
+                return true;
+            }
+            set.add((long)nums[j]);
+           if(j-i==k){
+               set.remove((long)nums[i]);
+               i++;
+           }
+               j++;
+        
+               
+               
+}
+               return false;
+               }
+               }
