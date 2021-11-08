@@ -1,0 +1,248 @@
+- Homework for me: find the time scale thought experiment for CPU operations, IO, etc.
+
+1 Ghz CPU: it can execute on average one instruction in 1 nanosecond(usually take little more time)
+
+- Continue benchmarking until you can confidently say which implementation is better and by how much. You'll have to manipulate the numbers until you notice significant difference in the implementations. Consider researching or using an existing bechmarking framework.
+
+Caliper by Google
+
+Fib:
+Java 8
+Recursive memo: 30.8 seconds 
+Recursive no memo: 31.6 seconds
+Matrix mult: 32.5 seconds
+DP: 26.9
+
+- Same for pow. 
+
+Recurse: 49.2 
+DP array: 52.2
+DP few vars: 45.0
+
+
+- The bits  based solution is correct. Verify it by counting the number of multiplications in your implementation. Also write code to generate the binary representation of n and count its 1s and 0s and then calculate it that way and see if they're equal.
+
+class Solution {
+    int mults;
+    public double myPow(double x, int n) {
+        mults = 0;
+        long N = n;
+        boolean divide = false;
+        if(N<0){
+            N = Math.abs(N);
+            divide = true;
+        }
+        double ans = recurse(x,N);
+        if(divide){
+            ans = 1.0/ans;
+        }
+        System.out.println(Integer.toBinaryString((int)n));
+        int mults2= 0;
+        for(char c : Integer.toBinaryString((int)n).toCharArray()){
+            if(c=='1'){
+                mults2++;
+                mults2++;
+            }else{
+                mults2++;
+            }
+        }
+        System.out.println(mults2);
+        System.out.println(mults);
+        return ans;
+        
+    }
+    
+    private double recurse(double x, long n){
+        if(n==0){
+            return 1.0;
+        }if(n%2==0){
+            long k = n/2;
+            double xtok = recurse(x,k);
+            mults++;
+            return xtok*xtok;
+        }else{
+            long k = n/2;
+            double xtok = recurse(x,k);
+            mults++;
+            mults++;
+            return xtok*xtok*x;
+        }
+    }
+}
+
+- Homework for both of us: figure out proper pow dynamic programming implementation that uses O(1) space and O(log n ) time. 
+
+private double recurse(double x, long n){
+        double current = x;
+        double ret = 1.0;
+        for(long i = n;i>0;i=i/2){
+            if(i%2==1){
+                ret = ret*current;
+            }
+                current = current * current;
+            
+        }
+        return ret;
+    }
+    
+    /*  */
+
+- For the Wildcard matching problem, solve it recursively without looking at a solution. Hint: go from the end of the string backwards.
+
+class Solution {
+    HashMap<String, Boolean> map;
+    public boolean isMatch(String s, String p) {
+        map = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+        boolean found= false;
+        for(int i =0;i<p.length();i++){
+            if(!found && p.charAt(i)=='*'){
+                sb.append(p.charAt(i));
+                found = true;
+            }
+            if(p.charAt(i)!='*'){
+                found = false;
+                sb.append(p.charAt(i));
+            }
+        }
+        //System.out.println(sb.toString());
+        return recurse(s, sb.toString());
+    }
+    
+    public boolean recurse(String s, String p){
+        boolean ans = false;
+        if(map.containsKey(s + "," + p)){
+            ans = map.get(s+ "," + p);
+        }
+        else if(s.equals(p)){
+           ans = true;
+        }
+        else if(p.equals("*")){
+            ans = true;
+        }
+        else if(p.length()==0 || s.length()==0){
+            ans = false;
+        }
+        else if(s.charAt(s.length()-1)==p.charAt(p.length()-1) || p.charAt(p.length()-1)=='?'){
+           ans = recurse(s.substring(0,s.length()-1), p.substring(0,p.length()-1));
+        }
+        else if(p.charAt(p.length()-1)=='*'){
+            ans =  recurse(s.substring(0,s.length()), p.substring(0,p.length()-1)) || recurse(s.substring(0,s.length()-1), p.substring(0,p.length()));
+        }
+        else if(p.charAt(p.length()-1)!=s.charAt(s.length()-1)){
+            ans = false;
+        }
+        map.put(s+","+p, ans);
+        return map.get(s+","+p);
+    }
+}
+
+- Extend the basic calculator problem to have it evaluate more complex expressions. Implement: +, -, *, /, parentheses, some mathematical functions sin, cos, log, etc.
+
+- Extend it further: allow it to take a series of statements like a = 2+2; b=3+a; etc using variables too. And output the final values of all variables at the end. So output would be: a = 4 and b = 7.
+
+Add for homework for next session
+
+- Read up a bit on compiler design, formal languages and computational linguistics. In particular, lexers, parsers, types of parsers, grammars, parser generators. Abstract syntrax trees.
+
+Lexers and parsers:
+They read symbols of some alphabet from their input.
+They analyse these symbols and try to match them with the grammar of the language they understood.
+They attach semantics (meaning) to the language pieces they find.
+They can attach some additional meaning (data) to the recognized elements.
+They all produce on their output a proper sentences of the language they recognize.
+
+Regular grammars
+They use regular expressions and can't handle nested syntax
+Context-free grammars
+They can have nested, recursive, self-similar branches in their syntax trees, so they can handle with nested structures well.
+
+A parser generator is an application which generates a parser. Sometimes also called a 'compiler compiler'. The usual input is a formal specification of the grammar the parser has to recognize, plus code implementing the actions the parser has to take when recognizing the various parts of its input.
+
+An abstract syntax tree, or just syntax tree, is a tree representation of the abstract syntactic structure of text written in a formal language. Each node of the tree denotes a construct occurring in the text. Check for syntax errors.
+
+- Do 3-4 problems on LeetCode with each of the following tags: linked lists, trees, heaps
+
+See git
+
+- Solve the domain name score problem.
+
+/*
+
+Let's say you are given a list of domains and a integer score for each
+
+google.com   10
+www.google.com  20
+com  5
+facebook.com 10
+www.facebook.com 15
+mail.facebook.com 30
+test2.mail.facebook.com 40
+test.mail.facebook.com 40
+google.org   10
+org  20
+
+
+Let's say total score for a domain is the sum of the domain's score and all of its descendant domains (as in subdomains). 
+
+google.com  total score: 10 + 20 = 30
+facebook.com = 10 + 15 + 30
+com = 10+20+10+15+30
+org = 10 + 20
+
+Write a program that given the domains plus score input outputs the total score for all the input domains.
+
+*/
+
+import java.util.*;
+
+public class MyClass {
+    public static void main(String args[]) {
+      String[][] ls = new String[][]{{"google.com", "10"}, {"www.google.com", "20"}, 
+      {"com", "5"}, {"facebook.com", "10"}, {"www.facebook.com", "15"}, {"mail.facebook.com", "30"}, 
+      {"test2.mail.facebook.com", "40"}, {"test.mail.facebook.com", "40"}, 
+      {"google.org","20"}, {"org", "20"}};
+
+        /*
+        google.com  total score: 10 + 20 = 30
+        facebook.com = 10 + 15 + 30
+        com = 10+20+10+15+30
+        org = 10 + 20
+        */
+
+      System.out.println(getValue(ls, "com"));
+    }
+    
+    public static int getValue(String[][] ls, String s){
+        HashMap<String, String> map = new HashMap<>();
+        for(String[] ss : ls){
+            String[] strList = ss[0].split("\\.");
+            String curr = "";
+            for(int i = strList.length-1;i>=0;i--){
+                curr = "." + curr;
+                curr = strList[i] + curr;
+                if(map.containsKey(curr)){
+                    map.put(curr, String.valueOf(Integer.valueOf(map.get(curr))+Integer.valueOf(ss[1])));
+                }else{
+                    map.put(curr, ss[1]);
+                }
+            }
+        }
+        if(!map.containsKey(s+".")){
+            return -1;
+        }
+        return Integer.valueOf(map.get(s+"."));
+    }
+    
+    class Node{
+        String s;
+        String value;
+        Node[] children;
+        
+        Node(String s, String value){
+            this.s=s;
+            this.value = value;
+        }
+        
+    }
+}
