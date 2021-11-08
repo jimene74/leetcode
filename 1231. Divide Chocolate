@@ -1,0 +1,38 @@
+class Solution {
+    public int maximizeSweetness(int[] sweetness, int k) {
+        int maxSweet =0;
+        for(int n : sweetness){
+            maxSweet = maxSweet + n;
+        }
+        int left = 0;
+        int right = maxSweet;
+        if(k==0){
+            return maxSweet;
+        }
+        while(left<right){
+            int mid = left + (right-left) /2;
+            if(condition(mid, sweetness, k)){
+                left = mid+1;
+            }else{
+                right = mid;
+            }
+        }
+        return left-1;
+    }
+    
+    public boolean condition(int mid, int[] sweetness, int k){
+        int total = 0;
+        int count = 0;
+        for(int n : sweetness){
+            total = total + n;
+            if(total>=mid){
+                count++;
+                total = 0;
+                if(count>k){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
