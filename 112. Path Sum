@@ -1,0 +1,43 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    boolean resp;
+    public boolean hasPathSum(TreeNode root, int targetSum) {
+        if(root==null){
+            return false;
+        }
+        resp = false;
+        dfs(root,targetSum,0);
+        return resp;
+    }
+    
+    public void dfs(TreeNode n , int targetSum, int count){
+        if(n==null){
+            return;
+        }
+        count = count + n.val;
+        if(isLeaf(n)&&count==targetSum){
+            resp = true;
+        }
+        dfs(n.left, targetSum, count);
+        dfs(n.right, targetSum, count);
+        
+    }
+    
+    public boolean isLeaf(TreeNode n){
+        return n.left==null&&n.right==null;
+    }
+}
