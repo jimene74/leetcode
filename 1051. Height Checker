@@ -1,0 +1,16 @@
+class Solution {
+    public int heightChecker(int[] heights) {
+        int[] test = new int[heights.length];
+        for(int j = 0;j<heights.length;j++){
+            test[j] = heights[j];
+        }
+        Arrays.sort(test);
+        int count = 0;
+        for(int i = 0; i<heights.length;i++){
+            if(test[i]!=heights[i]){
+                count++;
+            }
+        }
+        return count;
+    }
+}
