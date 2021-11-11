@@ -1,0 +1,26 @@
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int rem = 0;
+        int extra = 0;
+        int total = 0;
+        for(int i = digits.length-1;i>=0;i--){
+            if(i==digits.length-1){
+                total =total+1;
+            }
+            total = total + digits[i] + extra;
+            rem = total%10;
+            digits[i] = rem;
+            extra = total/10;
+            total = 0;
+        }
+        if(extra>0){
+            int[] n = new int[digits.length+1];
+            n[0] = extra;
+            for(int i = 1; i < n.length; i++){
+                n[i] = digits[i-1];
+            }
+            return n;
+        }
+        return digits;
+    }
+}
