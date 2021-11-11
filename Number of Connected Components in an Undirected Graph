@@ -1,0 +1,43 @@
+class Solution {
+    HashSet<Integer> visited;
+    List<List<Integer>> graph;
+    public int countComponents(int n, int[][] edges) {
+        int solution = 0;
+        visited = new HashSet<>();
+        graph = new ArrayList<>();
+        for(int i = 0;i<n;i++){
+            graph.add(new ArrayList<>());
+        }
+        for(int[] edge : edges){
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+        for(int i = 0;i<n;i++){
+            if(graph.get(i).size()==0){
+                solution++;
+            }
+        }
+        for(int j = 0;j<graph.size();j++){
+            for(int k = 0; k<graph.get(j).size();k++){
+                if(!visited.contains(j)){
+                    solution++;
+                    visited.add(j);
+                    dfs(j);
+                }
+                
+            }
+        }
+        return solution;
+    }
+    
+    public void dfs(int node){
+        System.out.println("component: "+node);
+        for(int neighbor : graph.get(node)){
+            if(!visited.contains(neighbor)){
+                System.out.println("neighbor: "+neighbor);
+                visited.add(neighbor);
+                dfs(neighbor);
+            }
+        }
+    }
+}
