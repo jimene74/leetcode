@@ -1,0 +1,21 @@
+class Solution {
+    public int dominantIndex(int[] nums) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->b-a);
+        if(nums.length<2){
+            return 0;
+        }
+        for(int n : nums){
+            pq.add(n);
+        }
+        
+        int max = pq.poll();
+        if(pq.poll()*2<=max){
+            for(int i = 0 ; i<nums.length;i++){
+                if(nums[i]==max){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+}
