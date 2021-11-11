@@ -1,0 +1,22 @@
+class Solution {
+    public boolean isHappy(int n) {
+        HashSet<Integer> visited = new HashSet<>();
+        int total = 0;
+        int sum = n;
+        while(!visited.contains(sum)){
+            visited.add(sum);
+            if(sum==1){
+                return true;
+            }
+            int number = sum;
+            sum = 0;
+            while(number>0){
+                int temp = number%10;
+                number = number/10;
+                sum = sum + (temp*temp);
+            }
+            //for each digit square and add and set n to that
+        }
+        return false;
+    }
+}
