@@ -1,0 +1,52 @@
+class MapSum {
+
+    TrieNode root;
+    HashMap<String, Integer> map;
+    public MapSum() {
+        root = new TrieNode();
+        map = new HashMap<>();
+    }
+    
+    public void insert(String key, int val) {
+        TrieNode tracker = root;
+        int net = val-map.getOrDefault(key, 0);
+        map.put(key,val);
+        for(char c : key.toCharArray()){
+            if(tracker.children[c-'a']==null){
+                
+                tracker.children[c-'a'] = new TrieNode();
+                //System.out.println(tracker.children[c-'a'].val);
+            }
+            tracker = tracker.children[c-'a'];
+            tracker.val = tracker.val + net;
+            
+        }
+    }
+    
+    public int sum(String prefix) {
+        TrieNode tracker = root;
+        for(char c : prefix.toCharArray()){
+            if(tracker.children[c - 'a']==null){
+                return 0;
+            }
+            tracker = tracker.children[c - 'a'];
+        }
+        return tracker.val;
+    }
+    
+    class TrieNode{
+        TrieNode[] children;
+        int val;
+        TrieNode(){
+            this.children = new TrieNode[26];
+            this.val = 0;
+        }
+    }
+}
+
+/**
+ * Your MapSum object will be instantiated and called as such:
+ * MapSum obj = new MapSum();
+ * obj.insert(key,val);
+ * int param_2 = obj.sum(prefix);
+ */
