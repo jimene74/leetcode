@@ -1,0 +1,42 @@
+class Solution {
+    HashSet<Integer> visited;
+    public boolean validTree(int n, int[][] edges) {
+        visited = new HashSet<>();
+        List<List<Integer>> adjList = new ArrayList<>();
+        for(int i = 0; i<n; i++){
+            adjList.add(new ArrayList<>());
+        }
+        for(int[] edge : edges){
+            adjList.get(edge[0]).add(edge[1]);
+            adjList.get(edge[1]).add(edge[0]);
+        }
+        
+        //for(List<Integer> l : adjList){
+            //System.out.println(" ");
+            //for(int p : l){
+            //    System.out.println(p);
+           // }
+        //}
+        
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        visited.add(0);
+        while(!stack.isEmpty()){
+            int node = stack.pop();
+            //System.out.println("node" + node);
+            for(int neighbor : adjList.get(node)){
+                //System.out.println(neighbor);
+                if(visited.contains(neighbor)){
+                    return false;
+                    //continue;
+                }
+                visited.add(neighbor);
+                stack.push(neighbor);
+                
+                adjList.get(neighbor).remove(Integer.valueOf(node));
+            }
+        }
+                return visited.size()==n;
+
+    }
+    }
