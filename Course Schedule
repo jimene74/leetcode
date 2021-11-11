@@ -1,0 +1,46 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        HashMap<Integer, List<Integer>> courses = new HashMap<>();
+        
+        for(int i=0;i<numCourses;i++){
+            courses.put(i,new ArrayList<>());
+        } 
+        
+        int[] indegrees = new int[numCourses];
+        
+        for(int[] prereq : prerequisites){
+            courses.get(prereq[1]).add(prereq[0]);
+            indegrees[prereq[0]]++;
+        }
+        
+        Deque<Integer> q = new LinkedList<>();
+        
+        for(int j = 0; j<numCourses;j++){
+            if(indegrees[j]==0){
+                q.add(j);
+            }
+        }
+        
+        while(!q.isEmpty()){
+            int course = q.pop();
+            for(Integer c : courses.get(course)){
+                indegrees[c]--;
+                if(indegrees[c]==0){
+                    q.add(c);
+                }
+            }
+        }
+        
+        for(int in : indegrees){
+            if(in!=0){
+                return false;
+            }
+        }
+        
+        return true;
+        
+        
+        
+        
+    }
+}
