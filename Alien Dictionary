@@ -1,0 +1,76 @@
+class Solution {
+    HashMap<Character, HashSet<Character>> map;
+    HashMap<Character, Integer> indegrees;
+    public String alienOrder(String[] words) {
+        map = new HashMap<>();
+        
+        indegrees = new HashMap<>();
+        for(String str : words){
+            for(char c : str.toCharArray()){
+                if(!map.containsKey(c)){
+                    map.put(c,new HashSet<>());
+                    indegrees.put(c, 0);
+                }
+            }
+        }
+        
+        
+        if(!buildGraph(words)){
+            return "";
+        }
+        
+        Deque<Character> q = new LinkedList<>();
+        
+        for(char cha : indegrees.keySet()){
+            if(indegrees.get(cha)==0){
+                q.add(cha);
+            }
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(!q.isEmpty()){
+            char cur = q.poll();
+            sb.append(cur);
+            for(char ch : map.get(cur)){
+                indegrees.put(ch, indegrees.get(ch)-1);
+                if(indegrees.get(ch)==0){
+                    q.add(ch);
+                }
+            }
+            
+        }
+        
+        if(sb.length()<indegrees.size()){
+            return "";
+        }
+        
+        return sb.toString();
+    }
+    
+    public boolean buildGraph(String[] words){
+        for(int i =1; i <words.length;i++){
+            String w1 = words[i-1];
+            String w2 =words[i];
+            int length = Math.min(w1.length(),w2.length());
+            
+            if (w1.length() > w2.length() && w1.startsWith(w2)) {
+            return false;
+        }
+            
+            for(int j =0;j<length;j++){
+                if(w1.charAt(j)==w2.charAt(j)){
+                    continue;
+                }
+                else{
+                    if(!map.get(w1.charAt(j)).contains(w2.charAt(j))){
+                        map.get(w1.charAt(j)).add(w2.charAt(j));
+                        indegrees.put((w2.charAt(j)), indegrees.get(w2.charAt(j))+1);
+                    }
+                    break;
+                }
+            }
+        }
+        return true;
+    }
+}
