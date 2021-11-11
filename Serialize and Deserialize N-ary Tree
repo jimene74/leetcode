@@ -1,0 +1,65 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> children;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+};
+*/
+
+class Codec {
+    // Encodes a tree to a single string.
+    // 1|2,3,4,5||6,7|8|9,10||11|12|13||14||||
+    public String serialize(Node root) {
+        if (root == null) return "";
+        StringBuilder sb = new StringBuilder(root.val + "|");
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            Node node = q.remove();
+            for (Node child : node.children) {
+                sb.append(child.val).append(',');
+                q.add(child);
+            }
+            if (node.children.size() > 0) {
+                sb.deleteCharAt(sb.length()-1);
+            }
+            sb.append('|');
+        }
+        return sb.toString();
+    }
+	
+    // Decodes your encoded data to tree.
+    public Node deserialize(String data) {
+        if (data.isEmpty()) return null;
+        Node prehead = new Node(0, new ArrayList<Node>());
+        Queue<Node> parents = new LinkedList<>();
+        parents.add(prehead);
+        for (String s : data.split("\\|")) {
+            Node parent = parents.remove();
+            if (s.isEmpty()) {
+                continue;
+            }
+            for (String value : s.split(",")) {
+                Node newNode = new Node(Integer.parseInt(value), new ArrayList<Node>());
+                parent.children.add(newNode);
+                parents.add(newNode);
+            }
+        }
+        return prehead.children.get(0);
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.deserialize(codec.serialize(root));
