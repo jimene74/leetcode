@@ -1,0 +1,55 @@
+//Kruskal's Algorithm with Union Find
+
+class Solution {
+    int[] arr;
+    public int minCostConnectPoints(int[][] points) {
+        int count = 0;
+        arr = new int[points.length];
+        for(int i=0;i<arr.length;i++){
+            arr[i] = i;
+        }
+        int[][] edges = new int[points.length*(points.length-1)/2][3]; //weight, from, to
+        int index = 0;
+        Set<Integer> set = new HashSet<>();
+        for(int i=0;i<points.length;i++){
+            for(int j =i+1;j<points.length;j++){
+                edges[index][0] = Math.abs(points[i][0]-points[j][0]) + Math.abs(points[i][1]-points[j][1]);
+                edges[index][1] = i;
+                edges[index][2] = j;
+                index++;
+            }//n*(n-1)/2
+        }
+        Arrays.sort(edges, (a,b)->a[0]-b[0]);
+        for(int[] edge: edges){
+            if(find(edge[1])!=find(edge[2])){
+                set.add(edge[1]);
+                set.add(edge[2]);
+                count = count +edge[0];
+                union(edge[1], edge[2]);
+            }
+            
+        }
+        return count;
+    }
+    
+    public void union(int i, int j){
+        int ri = find(i);
+        int rj = find(j);
+        if(ri==rj){
+            return;
+        }
+        if(ri==0){
+            arr[rj] = ri;
+        }else{
+            arr[rj] = ri;
+        }
+        
+    }
+    
+    public int find(int i){
+        while(arr[i]!=i){
+            i = arr[i];
+        }
+        return i;
+    }
+}
